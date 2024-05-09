@@ -37,4 +37,4 @@ jobs:
 
             - name: Build
               run: |
-                  docker run --rm termux/termux-docker:aarch64 bash -c "uname -a"
+                  docker run --rm --privileged --entrypoint /entrypoint_root.sh termux/termux-docker:aarch64 bash -c "uname -a"
