@@ -1,9 +1,22 @@
+[workspace]
+resolver = "2"
+members = ["src/deno_builder"]
+
+[workspace.dependencies]
+deno_builder = { path = "./src/deno_builder" }
+
+deno_runtime = { version = "0.140.0" }
+deno_core = { version = "0.245.0" }
+lazy-regex = "3"
+serde = { version = "1.0.149", features = ["derive"] }
+serde_json = "1.0.85"
+zstd = "=0.12.4"
+flate2 = { version = "1.0.26", default-features = false }
+
 [package]
 name = "deno_snapshot_builder"
-version = "0.1.0"
+version = "1.39.4"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-deno_builder = { path = "./src/deno_builder" }
+deno_builder.workspace = true
