@@ -35,6 +35,15 @@ jobs:
               run: |
                   docker run --rm --privileged aptman/qus -s -- -p aarch64 arm
 
-            - name: Build
+            - name: Build builder
+              env:
+                  ANDROID_NDK_ROOT: ${{ steps.install-ndk.outputs.ndk-path }}
+                  CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
+                  CC_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
+                  AR_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
+              run: |
+                  cargo build --target aarch64-linux-android --release
+
+            - name: Build snapshot
               run: |
                   docker run --rm --privileged --entrypoint /entrypoint_root.sh termux/termux-docker:aarch64 bash -c "uname -a"
