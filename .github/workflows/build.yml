@@ -35,6 +35,12 @@ jobs:
               run: |
                   docker run --rm --privileged aptman/qus -s -- -p aarch64 arm
 
+            - name: Install protobuf
+              run: |
+                  sudo apt update
+                  sudo apt install -yq --no-install-suggests --no-install-recommends \
+                    protobuf-compiler
+
             - name: Build builder
               env:
                   ANDROID_NDK_ROOT: ${{ steps.install-ndk.outputs.ndk-path }}
@@ -47,4 +53,5 @@ jobs:
 
             - name: Build snapshot
               run: |
-                  docker run --rm --privileged --entrypoint /entrypoint_root.sh termux/termux-docker:aarch64 bash -c "uname -a"
+                  docker run --rm --privileged --entrypoint /entrypoint_root.sh termux/termux-docker:aarch64 \
+                    bash -c "uname -a"
