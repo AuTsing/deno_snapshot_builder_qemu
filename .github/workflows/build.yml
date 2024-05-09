@@ -53,6 +53,8 @@ jobs:
 
             - name: Build snapshot
               run: |
-                  docker run --rm --privileged --entrypoint /entrypoint_root.sh termux/termux-docker:aarch64 \
+                  docker run --rm --privileged \
+                    --entrypoint /entrypoint_root.sh \
                     --mount type=bind,src=$(pwd),target=$(pwd) \
+                    termux/termux-docker:aarch64 \
                     bash -c "$(pwd)/target/aarch64-linux-android/release/deno_snapshot_builder"
