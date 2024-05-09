@@ -3,5 +3,12 @@
 version = 3
 
 [[package]]
+name = "deno_builder"
+version = "1.39.4"
+
+[[package]]
 name = "deno_snapshot_builder"
 version = "0.1.0"
+dependencies = [
+ "deno_builder",
+]

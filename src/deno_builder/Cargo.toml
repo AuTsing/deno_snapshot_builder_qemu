@@ -1,0 +1,9 @@
+[package]
+name = "deno_builder"
+version = "1.39.4"
+edition = "2021"
+
+[lib]
+path = "lib.rs"
+
+[dependencies]
