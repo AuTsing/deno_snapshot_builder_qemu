@@ -1,0 +1,13 @@
+name: Build
+
+on:
+    push:
+        tags: ['**']
+
+jobs:
+    build:
+        runs-on: ubuntu-22.04
+
+        steps:
+            - name: Checkout deno_snapshot_builder
+              uses: actions/checkout@v4
