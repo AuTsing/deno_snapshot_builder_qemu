@@ -11,3 +11,30 @@ jobs:
         steps:
             - name: Checkout deno_snapshot_builder
               uses: actions/checkout@v4
+
+            - name: Install rust
+              uses: dsherret/rust-toolchain-file@v1
+
+            - name: Install ndk
+              id: install-ndk
+              uses: nttld/setup-ndk@v1
+              with:
+                  ndk-version: r26d
+                  add-to-path: false
+
+            - name: Install cross compilation toolchain
+              run: |
+                  rustup target add aarch64-linux-android
+
+            - name: Install qemu
+              uses: docker/setup-qemu-action@v3
+              with:
+                  platforms: arm64
+
+            - name: Setup qemu
+              run: |
+                  docker run --rm --privileged aptman/qus -s -- -p aarch64 arm
+
+            - name: Build
+              run: |
+                  docker run -it --rm termux/termux-docker:aarch64 bash -c "apt update && apt install -yq clang"
