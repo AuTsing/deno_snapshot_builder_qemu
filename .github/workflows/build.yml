@@ -22,7 +22,11 @@ jobs:
               with:
                   repository: denoland/deno
                   ref: v1.39.4
-                  path: src/deno_builder/deno
+                  path: assets/deno
+
+            - name: Copy src
+              run: |
+                  cp -r assets/deno/cli/* src/deno_builder/
 
             - name: Install rust
               uses: dsherret/rust-toolchain-file@v1

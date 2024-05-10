@@ -4,7 +4,7 @@ use std::fs;
 fn main() {
     let working_dir = env::current_dir().unwrap();
     let out_dir = working_dir.join("out");
-    let cargo_manifest_dir = working_dir.join("src/deno_builder/deno/cli");
+    let cargo_manifest_dir = working_dir.join("src/deno_builder");
 
     env::set_current_dir(&cargo_manifest_dir).unwrap();
     fs::create_dir(&out_dir).unwrap();
