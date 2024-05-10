@@ -8,10 +8,10 @@ path = "lib.rs"
 
 [dependencies]
 deno_runtime = { workspace = true, features = [
-    "include_js_files_for_snapshotting",
+    # "include_js_files_for_snapshotting",
 ] }
 deno_core = { workspace = true, features = [
-    "include_js_files_for_snapshotting",
+    # "include_js_files_for_snapshotting",
 ] }
 lazy-regex.workspace = true
 serde.workspace = true
