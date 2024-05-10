@@ -41,6 +41,9 @@ jobs:
                   sudo apt install -yq --no-install-suggests --no-install-recommends \
                     protobuf-compiler
 
+            - name: Cache rust
+              uses: Swatinem/rust-cache@v2
+
             - name: Build builder
               env:
                   ANDROID_NDK_ROOT: ${{ steps.install-ndk.outputs.ndk-path }}
@@ -58,4 +61,5 @@ jobs:
                     --mount type=bind,src=$(pwd),target=$(pwd) \
                     -e LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib/ \
                     termux/termux-docker:aarch64 \
-                    bash -c "$(pwd)/target/aarch64-linux-android/release/deno_snapshot_builder"
+                    # bash -c "$(pwd)/target/aarch64-linux-android/release/deno_snapshot_builder"
+                    bash -c "pwd"
