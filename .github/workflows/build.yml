@@ -17,6 +17,13 @@ jobs:
               with:
                   ref: ${{ github.ref_name }}
 
+            - name: Checkout deno
+              uses: actions/checkout@v4
+              with:
+                  repository: denoland/deno
+                  ref: v1.39.4
+                  path: src/deno_builder/deno
+
             - name: Install rust
               uses: dsherret/rust-toolchain-file@v1
 
