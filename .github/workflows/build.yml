@@ -14,6 +14,8 @@ jobs:
         steps:
             - name: Checkout deno_snapshot_builder
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.ref_name }}
 
             - name: Install rust
               uses: dsherret/rust-toolchain-file@v1
