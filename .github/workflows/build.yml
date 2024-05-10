@@ -24,11 +24,6 @@ jobs:
                   ref: v1.39.4
                   path: assets/deno
 
-            - name: Copy src
-              run: |
-                  rm assets/deno/cli/Cargo.toml
-                  cp -r assets/deno/cli/* src/deno_builder/
-
             - name: Install rust
               uses: dsherret/rust-toolchain-file@v1
 
@@ -73,6 +68,8 @@ jobs:
 
             - name: Build snapshot
               run: |
+                  rm -r ${{ github.workspace }}/src/*
+                  cp -r ${{ github.workspace }}/assets/deno/cli ${{ github.workspace }}/src/deno_builder
                   docker run --rm --privileged \
                     --entrypoint /entrypoint_root.sh \
                     --mount type=bind,src=$HOME,target=$HOME \
