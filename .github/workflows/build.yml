@@ -26,6 +26,7 @@ jobs:
 
             - name: Copy src
               run: |
+                  rm assets/deno/cli/Cargo.toml
                   cp -r assets/deno/cli/* src/deno_builder/
 
             - name: Install rust
