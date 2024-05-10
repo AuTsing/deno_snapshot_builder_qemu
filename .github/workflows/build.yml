@@ -73,4 +73,5 @@ jobs:
                     --mount type=bind,src=${{ github.workspace }},target=${{ github.workspace }} \
                     -e LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib/ \
                     termux/termux-docker:aarch64 \
-                    bash -c "cd ./src/deno_builder/deno/cli && ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
+                    # bash -c "cd ./src/deno_builder/deno/cli && ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
+                    bash -c "ls ./src/deno_builder/deno"
