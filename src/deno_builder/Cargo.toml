@@ -1,6 +1,6 @@
 [package]
 name = "deno_builder"
-version = "1.39.4"
+version = "1.43.3"
 edition = "2021"
 
 [lib]
@@ -9,6 +9,7 @@ path = "lib.rs"
 [dependencies]
 deno_runtime = { workspace = true, features = [
     "include_js_files_for_snapshotting",
+    "only_snapshotted_js_sources",
 ] }
 deno_core = { workspace = true, features = [
     "include_js_files_for_snapshotting",
