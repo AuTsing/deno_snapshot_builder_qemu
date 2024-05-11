@@ -372,7 +372,7 @@ fn git_commit_hash() -> String {
   }
 }
 
-fn main() {
+pub fn main() {
   // Skip building from docs.rs.
   if env::var_os("DOCS_RS").is_some() {
     return;
