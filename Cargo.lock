@@ -1412,8 +1412,6 @@ dependencies = [
 [[package]]
 name = "deno_webgpu"
 version = "0.118.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "76aa5e743253bcdc353e60a82284042aac522311da1aaab761519f3b47ce22e3"
 dependencies = [
  "deno_core",
  "raw-window-handle",

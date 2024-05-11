@@ -20,3 +20,6 @@ edition = "2021"
 
 [dependencies]
 deno_builder.workspace = true
+
+[patch.crates-io]
+deno_webgpu = { path = "./ext/webgpu" }
