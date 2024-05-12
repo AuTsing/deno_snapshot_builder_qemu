@@ -67,6 +67,8 @@ jobs:
                   CC_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
                   AR_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
               run: |
+                  echo ${{ steps.install-ndk.outputs.ndk-path }}
+                  echo $HOME
                   cargo build --target aarch64-linux-android --release
 
             # - name: Build snapshot
