@@ -67,20 +67,20 @@ jobs:
                   CC_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
                   AR_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
               run: |
-                  echo ${{ steps.install-ndk.outputs.ndk-path }}
-                  echo $HOME
                   cargo build --target aarch64-linux-android --release
 
-            # - name: Build snapshot
-            #   run: |
-            #       rm -r ${{ github.workspace }}/src/*
-            #       cp -r ${{ github.workspace }}/assets/deno/cli ${{ github.workspace }}/src/deno_builder
-            #       docker run --rm --privileged \
-            #         --entrypoint /entrypoint_root.sh \
-            #         --mount type=bind,src=$HOME,target=$HOME \
-            #         termux/termux-docker:aarch64 \
-            #         bash -c "cd ${{ github.workspace }} &&\
-            #           ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
+            - name: Build snapshot
+              run: |
+                  rm -r ${{ github.workspace }}/src/*
+                  cp -r ${{ github.workspace }}/assets/deno/cli ${{ github.workspace }}/src/deno_builder
+                  docker run --rm --privileged \
+                    --entrypoint /entrypoint_root.sh \
+                    --mount type=bind,src=$HOME,target=$HOME \
+                    --mount type=bind,src=${{ steps.install-ndk.outputs.ndk-path }},target=${{ steps.install-ndk.outputs.ndk-path }} \
+                    -e LD_LIBRARY_PATH=${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/28 \
+                    termux/termux-docker:aarch64 \
+                    bash -c "cd ${{ github.workspace }} &&\
+                      ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
 
             - name: Release
               uses: softprops/action-gh-release@v2
