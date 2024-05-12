@@ -77,7 +77,7 @@ jobs:
                   docker run --rm --privileged \
                     --entrypoint /entrypoint_root.sh \
                     --mount type=bind,src=$HOME,target=$HOME \
-                    -e LD_LIBRARY_PATH=/system/lib/ \
+                    -e LD_LIBRARY_PATH=/system/lib64/ \
                     termux/termux-docker:aarch64 \
                     bash -c "cd ${{ github.workspace }} && ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
 
