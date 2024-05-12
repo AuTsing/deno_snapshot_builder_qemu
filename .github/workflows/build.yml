@@ -57,33 +57,41 @@ jobs:
               run: |
                   git apply ${{ github.workspace }}/patches/ext_webgpu_byow.rs.patch
 
-            - name: Cache rust
-              uses: Swatinem/rust-cache@v2
-
-            - name: Build builder
-              env:
-                  ANDROID_NDK_ROOT: ${{ steps.install-ndk.outputs.ndk-path }}
-                  CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
-                  CC_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
-                  AR_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
-                  RUSTFLAGS: -L ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/17/lib/linux -l android
+            - name: Test qemu
               run: |
-                  cargo build --target aarch64-linux-android --release
-
-            - name: Build snapshot
-              run: |
-                  rm -r ${{ github.workspace }}/src/*
-                  cp -r ${{ github.workspace }}/assets/deno/cli ${{ github.workspace }}/src/deno_builder
                   docker run --rm --privileged \
                     --entrypoint /entrypoint_root.sh \
                     --mount type=bind,src=$HOME,target=$HOME \
-                    -e LD_LIBRARY_PATH=/system/lib64/ \
                     termux/termux-docker:aarch64 \
-                    bash -c "cd ${{ github.workspace }} && ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
+                    bash -c "pwd && ls /system/lib64/"
 
-            - name: Release
-              uses: softprops/action-gh-release@v2
-              with:
-                  files: |
-                      ${{ github.workspace }}/out/COMPILER_SNAPSHOT.bin
-                      ${{ github.workspace }}/out/CLI_SNAPSHOT.bin
+            # - name: Cache rust
+            #   uses: Swatinem/rust-cache@v2
+
+            # - name: Build builder
+            #   env:
+            #       ANDROID_NDK_ROOT: ${{ steps.install-ndk.outputs.ndk-path }}
+            #       CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
+            #       CC_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
+            #       AR_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
+            #       RUSTFLAGS: -L ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/17/lib/linux -l android
+            #   run: |
+            #       cargo build --target aarch64-linux-android --release
+
+            # - name: Build snapshot
+            #   run: |
+            #       rm -r ${{ github.workspace }}/src/*
+            #       cp -r ${{ github.workspace }}/assets/deno/cli ${{ github.workspace }}/src/deno_builder
+            #       docker run --rm --privileged \
+            #         --entrypoint /entrypoint_root.sh \
+            #         --mount type=bind,src=$HOME,target=$HOME \
+            #         -e LD_LIBRARY_PATH=/system/lib64/ \
+            #         termux/termux-docker:aarch64 \
+            #         bash -c "cd ${{ github.workspace }} && ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
+
+            # - name: Release
+            #   uses: softprops/action-gh-release@v2
+            #   with:
+            #       files: |
+            #           ${{ github.workspace }}/out/COMPILER_SNAPSHOT.bin
+            #           ${{ github.workspace }}/out/CLI_SNAPSHOT.bin
