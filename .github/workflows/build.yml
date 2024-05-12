@@ -69,22 +69,21 @@ jobs:
               run: |
                   cargo build --target aarch64-linux-android --release
 
-            - name: Build snapshot
-              run: |
-                  rm -r ${{ github.workspace }}/src/*
-                  cp -r ${{ github.workspace }}/assets/deno/cli ${{ github.workspace }}/src/deno_builder
-                  docker run --rm --privileged \
-                    --entrypoint /entrypoint_root.sh \
-                    --mount type=bind,src=$HOME,target=$HOME \
-                    termux/termux-docker:aarch64 \
-                    bash -c "apt update &&\
-                      apt install tsu &&\
-                      cd ${{ github.workspace }} &&\
-                      ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
+            # - name: Build snapshot
+            #   run: |
+            #       rm -r ${{ github.workspace }}/src/*
+            #       cp -r ${{ github.workspace }}/assets/deno/cli ${{ github.workspace }}/src/deno_builder
+            #       docker run --rm --privileged \
+            #         --entrypoint /entrypoint_root.sh \
+            #         --mount type=bind,src=$HOME,target=$HOME \
+            #         termux/termux-docker:aarch64 \
+            #         bash -c "cd ${{ github.workspace }} &&\
+            #           ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder"
 
-            # - name: Release
-            #   uses: softprops/action-gh-release@v2
-            #   with:
-            #       files: |
-            #           ${{ github.workspace }}/out/COMPILER_SNAPSHOT.bin
-            #           ${{ github.workspace }}/out/CLI_SNAPSHOT.bin
+            - name: Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: |
+                      ${{ github.workspace }}/target/aarch64-linux-android/release/deno_snapshot_builder
+                      # ${{ github.workspace }}/out/COMPILER_SNAPSHOT.bin
+                      # ${{ github.workspace }}/out/CLI_SNAPSHOT.bin
